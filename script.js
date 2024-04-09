@@ -22,7 +22,7 @@ let intervaloId = null;
 focoButton.addEventListener('click', () => {
         // html.setAttribute('data-contexto', 'foco');
         // imageFoco.setAttribute('src', '/imagens/foco.png')
-        tempoDecorridoEmSeg = 1500
+        tempoDecorridoEmSeg = 10
         alterarContexto('foco')
         focoButton.classList.add('active')
 })
@@ -49,7 +49,7 @@ function alterarContexto(contexto) {
     switch (contexto) {
         case "foco":
             tituloApp.innerHTML = `
-             Shoes on, get up in the morn', let's
+            Shoes on, get up in the morn', let's
                 <strong class="app__title-strong"> rock and roll!</strong>`
 
             break;
@@ -84,6 +84,11 @@ const contagemRegressiva = () => {
     if(tempoDecorridoEmSeg <= 0) {
         audioTimerFinished.play()
         alert('Tempo finalizado!')
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco'
+        if (focoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado')
+            document.dispatchEvent(evento)
+        }
         playPauseIcon.setAttribute('src', `/imagens/play_arrow.png`)
         startPauseButton.textContent = "Start"
         zerar()
